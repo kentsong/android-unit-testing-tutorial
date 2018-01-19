@@ -48,7 +48,10 @@ public class LoginPresenterTest {
     @Test
     @JSpec(desc = "should mock perform certain action")
     public void testMockAnswer() {
+
         UserManager mockUserManager = Mockito.mock(UserManager.class);
+        NetworkCallback mockNetworkCallback = Mockito.mock(NetworkCallback.class);
+
         Mockito.doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -61,8 +64,8 @@ public class LoginPresenterTest {
             }
         }).when(mockUserManager).performLogin(anyString(), anyString(), any(NetworkCallback.class));
 
-
-        mockUserManager.performLogin("xiaochuang", "xiaochuang password", Mockito.mock(NetworkCallback.class));
+        mockUserManager.performLogin("xiaochuang", "xiaochuang password", mockNetworkCallback);
+        Mockito.verify(mockNetworkCallback).onFailure(500, "Server error");
     }
 
     @Test
